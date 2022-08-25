@@ -54,6 +54,13 @@ $(LIB):
 	@$(MAKE) -C libft
 	@echo Libft done
 
+docker:
+	docker build -t archi .
+	docker run -it archi
+
+prune:
+	docker system prune -a --volumes
+
 clean:
 	@rm -rf $(BUILD_DIR)
 	@$(MAKE) -C libft clean
