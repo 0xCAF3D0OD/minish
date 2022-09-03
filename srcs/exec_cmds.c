@@ -27,7 +27,7 @@ int	exec_pipe_cmd(t_shell *shell, char **env, int fd_in)
 		if (shell->error)
 			exit(EXIT_FAILURE);
 //		if (exec_built_in(shell, 1)) TODO: execute built-ins here
-//			exit(shell->ret);
+//			exit(l_status);
 		shell->cmd->path = check_cmd(*shell->cmd->token, shell);
 		//shell->ret = get_path_exec(shell);
 		//printf("path : %s\n", shell->cmd->path);
