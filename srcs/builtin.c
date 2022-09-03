@@ -46,37 +46,43 @@ void	main_redirection(t_shell *shell)
 	}
 }
 
-//int	launch_builtin(int tmp, t_shell *shell, int in_fork)
-//{
-//	if (!in_fork)
-//		main_redirection(shell);
-//	if (tmp == ECHO_M)
-//		shell->ret = ft_echo(shell->cmd->token);
-//	else if (tmp == ENV_M)
-//		shell->ret = ft_env(shell);
-//	else if (tmp == CD_M)
-//		shell->ret = ft_cd(shell->cmd->token + 1, shell);
-//	else if (tmp == EXPORT_M)
-//		shell->ret = ft_export(shell->cmd->token, shell);
-//	if (!in_fork)
-//		swap_fds(shell->std_in, shell->std_out);
-//	shell->std_in = 0;
-//	shell->std_out = 1;
-//	return (1);
-//}
-//
-//int exec_built_in(t_shell *shell, int in_fork)
-//{
-//	int	tmp;
-//
-//	if (*shell->cmd->token)
-//	{
-//		tmp = is_builtin(*shell->cmd->token);
-//		if (tmp != N_B_IN)
-//			return launch_builtin(tmp, shell, in_fork);
-//	}
-//	return (0);
-//}
+int ft_echo(char **line)
+{
+	ft_printf(1, "first -> %s, second %s\n", line[0], line[1]);
+	return 0;
+}
+
+int	launch_builtin(int tmp, t_shell *shell, int in_fork)
+{
+	if (!in_fork)
+		main_redirection(shell);
+	if (tmp == ECHO_M)
+		ft_echo(shell->cmd->token);
+	else if (tmp == ENV_M)
+		ft_printf(1, "<env>\n");
+	else if (tmp == CD_M)
+		ft_printf(1, "<cd>\n");
+	else if (tmp == EXPORT_M)
+		ft_printf(1, "<export>\n");
+	if (!in_fork)
+		swap_fds(shell->std_in, shell->std_out);
+	shell->std_in = 0;
+	shell->std_out = 1;
+	return (1);
+}
+
+int exec_built_in(t_shell *shell, int in_fork)
+{
+	int	tmp;
+
+	if (*shell->cmd->token)
+	{
+		tmp = is_builtin(*shell->cmd->token);
+		if (tmp != N_B_IN)
+			return launch_builtin(tmp, shell, in_fork);
+	}
+	return (0);
+}
 //
 //int	ft_cd(char **cmd, t_shell *shell)
 //{
