@@ -163,7 +163,7 @@ int	check_path_env(t_env **env, char *name)
 
 	if (env)
 	{
-		//printf("TEST\n");
+//		printf("TEST\n");
 		ptr = *env;
 		//printf("env : %s\n", name);
 		while (*env)

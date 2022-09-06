@@ -170,6 +170,10 @@ int	ft_env(t_shell *shell);
 int	ft_echo(char **cmd);
 int     ft_cd(char **cmd, t_shell *shell);
 int	ft_export(char **cmd, t_shell *shell);
+//builtin from Kevin
+void 	ft_echo_from_kevin(char **input);
+void	ft_env_from_kevin(char **input);
+void	ft_export_kevin(char **input);
 //Init ascii
 void	init_ascii(void);
 //Free
