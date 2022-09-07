@@ -173,7 +173,11 @@ int	ft_export(char **cmd, t_shell *shell);
 //builtin from Kevin
 void 	ft_echo_from_kevin(char **input);
 void	ft_env_from_kevin(char **input);
-void	ft_export_kevin(char **input);
+void	ft_export_kevin(char **input, t_env *env);
+//export_kevin
+
+//annexe_kevin
+void	bubble_sort(char **array);
 //Init ascii
 void	init_ascii(void);
 //Free

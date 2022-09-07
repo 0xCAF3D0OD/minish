@@ -61,7 +61,6 @@ void	bubble_sort(char **array)
 	while (ft_check_order(array) == 0)
 	{
 		i = 0;
-
 		while (array[i])
 		{
 			// ft_display(array);

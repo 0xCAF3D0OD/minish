@@ -65,7 +65,7 @@ char	**order_list(t_list *list, char *input)
 	return (NULL);
 }
 
-t_list	*ft_export_1(char *input, t_list **list)
+char	*ft_export_1(char **input, t_list **list)
 {
 	int		i;
 
@@ -76,6 +76,5 @@ t_list	*ft_export_1(char *input, t_list **list)
 		order_list(*list, input);
 	else
 		search_args(input, list, i);
-
 	return (NULL);
 }

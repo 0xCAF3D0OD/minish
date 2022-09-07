@@ -65,7 +65,8 @@ void 	ft_echo_from_kevin(char **input) {
 		}
 		if ((ft_strcmp("echo", input[i]) == 0) && count > 1)
 			i++;
-		if (ft_strcmp("-n", input[i]) == 0) {
+		if (ft_strcmp("-n", input[i]) == 0)
+		{
 			ft_echo_n(input, i++);
 			break;
 		}
@@ -75,14 +76,6 @@ void 	ft_echo_from_kevin(char **input) {
 	}
 }
 
-void	ft_export_kevin(char **input)
-{
-	int i;
-
-	i = 0;
-	while (input[i])
-		printf("%s", input[i++]);
-}
 //
 //void 	ft_exit(void)
 //{

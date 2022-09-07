@@ -64,26 +64,26 @@ char	*check_cmd(char *cmd, t_shell *shell)
 }
 
 //TODO adapt built-ins and return the return value
-void	builtin(t_shell *shell, int in_fork)
-{
-	(void)in_fork;
-	int i;
-//	if (!in_fork)
-//		redirection_main(shell);
-	i = 0;
-	while (shell->cmd->token[i])
-	{
-		if (!ft_strncmp(*shell->cmd->token,"env",3))
-			ft_printf(1, "<env>");
-		else if (!ft_strncmp(*shell->cmd->token,"echo",4))
-			write(1, "echo\n", 5);
-		else if (!ft_strncmp(*shell->cmd->token,"cd",2))
-			ft_printf(1, "<env>");
-		else if (!ft_strncmp(*shell->cmd->token,"export",6))
-			ft_printf(1, "<env>");
-		i++;
-	}
-}
+//void	builtin(t_shell *shell, int in_fork)
+//{
+//	(void)in_fork;
+//	int i;
+////	if (!in_fork)
+////		redirection_main(shell);
+//	i = 0;
+//	while (shell->cmd->token[i])
+//	{
+//		if (!ft_strncmp(*shell->cmd->token,"env",3))
+//			ft_printf(1, "<env>");
+//		else if (!ft_strncmp(*shell->cmd->token,"echo",4))
+//			write(1, "echo\n", 5);
+//		else if (!ft_strncmp(*shell->cmd->token,"cd",2))
+//			ft_printf(1, "<env>");
+//		else if (!ft_strncmp(*shell->cmd->token,"export",6))
+//			ft_printf(1, "<env>");
+//		i++;
+//	}
+//}
 
 /*
 void	get_cmd(t_shell *shell)
