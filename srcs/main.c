@@ -20,7 +20,7 @@ void	init_line(t_shell *shell)
 		init_prompt(shell);
 	signal(SIGQUIT, SIG_IGN);
 	rl_replace_line("",0);
-	shell->cmdline = readline(shell->prompt);
+	shell->cmdline = readline("minish> ");
 	if (!shell->cmdline)
 	{
 		if (shell->cmdline != NULL)

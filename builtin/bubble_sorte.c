@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "minishell.h"
 
 int ft_str_search(char *str, int i, int count)
 {

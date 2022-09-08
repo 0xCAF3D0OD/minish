@@ -133,7 +133,7 @@ int	launch(t_shell *shell, int *status, char **env)
 	{
 		if (first && !shell->cmd->next && is_builtin(*shell->cmd->token))
 		{
-			exec_built_in(shell, 0);
+			exec_built_in(shell, 1);
 			*status = -1;
 		}
 		else

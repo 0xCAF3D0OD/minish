@@ -35,7 +35,6 @@ void	bubble_sort(char **array)
 		i = 0;
 		while (array[i])
 		{
-			// ft_display(array);
 			if (array[i + 1] && array[i + 1][0] != '\0' && array[i][0] > array[i + 1][0])
 				ft_swap(array, i);
 			i++;

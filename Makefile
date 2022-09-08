@@ -34,9 +34,9 @@ INC_FLAGS += $(addprefix -I,$(INC_DIRS))
 
 LIB    := libft/libft.a
 
-CFLAGS += -Wall -Wextra -g3 #-Werror
+CFLAGS += -Wall -Werror -Wextra 
 #CFLAGS += -O2 -march=native
-#CFLAGS += -g3
+CFLAGS += -g3 -fsanitize=address
 
 all:
 	@$(MAKE) $(NAME)
@@ -54,13 +54,6 @@ $(LIB):
 	@$(MAKE) -C libft
 	@echo Libft done
 
-docker:
-	docker build -t archi .
-	docker run -it archi
-
-prune:
-	docker system prune -a --volumes
-
 clean:
 	@rm -rf $(BUILD_DIR)
 	@$(MAKE) -C libft clean
@@ -76,13 +69,13 @@ re: fclean
 	@$(MAKE) -j$(NPROC) $(NAME)
 
 
-build:
+docker_build:
 	docker build -t archi .
 
-run:
+docker_run:
 	docker run -it archi
 
-prune:
+docker_prune:
 	docker system prune -a --volumes
 
 .PHONY: all clean fclean re

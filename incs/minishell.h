@@ -178,6 +178,7 @@ void	ft_export_kevin(char **input, t_env *env);
 t_env	*ft_lstnew_env(void	*content);
 t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
+int		ft_lstsize_env(t_env *lst);
 //export_kevin
 
 //annexe_kevin

@@ -97,6 +97,10 @@ add_executable(minish
         srcs/path_utils.c
         srcs/pipe.c
         srcs/piping.c
+        srcs/export_kevin.c
+        builtin/bubble_sorte.c
+        srcs/builtins_kevin.c
+        srcs/ft_lst_kevin.c
         srcs/prompt.c
         srcs/quotes_utils.c
         srcs/redirection.c
