@@ -34,7 +34,7 @@ INC_FLAGS += $(addprefix -I,$(INC_DIRS))
 
 LIB    := libft/libft.a
 
-CFLAGS += -Wall -Wextra -Werror -g3
+CFLAGS += -Wall -Wextra -g3 #-Werror
 #CFLAGS += -O2 -march=native
 #CFLAGS += -g3
 

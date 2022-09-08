@@ -174,6 +174,10 @@ int	ft_export(char **cmd, t_shell *shell);
 void 	ft_echo_from_kevin(char **input);
 void	ft_env_from_kevin(char **input);
 void	ft_export_kevin(char **input, t_env *env);
+//ft_lst_kevin
+t_env	*ft_lstnew_env(void	*content);
+t_env	*ft_lstlast_env(t_env *lst);
+void	ft_lstadd_back_env(t_env **alst, t_env *new);
 //export_kevin
 
 //annexe_kevin

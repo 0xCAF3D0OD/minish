@@ -2,86 +2,27 @@
 // Created by Kevin Di nocera on 9/7/22.
 //
 #include "minishell.h"
-//char	**search_args(char *input, t_list **list, int i)
-//{
-//	char **str;
-//	int h;
-//	int l;
-//	int	count;
-//
-//	h = 0;
-//	l = 0;
-//	i = 1;
-//	count = 0;
-//	count = ft_str_search(input, i, count);
-//	str = ft_split(input, ' ');
-//	h = height_str(str);
-//	if (check_if_similar(str, count) == 1)
-//		printf("\n");
-//	manage_quotation(str);
-//	if (the_first_args(input) == 1)
-//		stock_args_in_list(str, list);
-//	if (the_first_args(input) == 2)
-//		return (str);
-//	print_tab(str);
-//	return (NULL);
-//}
-//
-//char	**order_list(t_list *list, char *input)
-//{
-//	char	**str;
-//	int		len_str;
-//	int		len_list;
-//	int		h;
-//	t_list	*nlst = list;
-//
-//	len_str = 0;
-//	h = 0;
-//	str = NULL;
-//	len_list = ft_lstsize(list);
-//	str = ft_calloc(len_list + 1, sizeof(char *));
-//	while (list)
-//	{
-//		len_str = ft_strlen((char *)list->content);
-//		str[h] = ft_calloc(len_str + 1, sizeof(char));
-//		str[h] = (char *)list->content;
-//		list = list->next;
-//		h++;
-//	}
-//	if (the_first_args(input) == 0 || the_first_args(input) == 1)
-//		print_list(str, &nlst);
-//	if (the_first_args(input) == 2)
-//		return (str);
-//	return (NULL);
-//}
 
-//int	len_args(char **input, t_env *env)
-//{
-//	int	i;
-//
-//	i = 0;
-//	while (input[i])
-//		i++;
-//	if (i == 1)
-//		return (1);
-//	return (0);
-//}
-void	order_str(char **str)
+int	check_equal(char *str)
 {
-	int i;
+	int	i;
 
-	i = -1;
-	bubble_sort(str);
-	while (str[++i])
-		printf("declare -x %s\n", str[i]);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+		{
+			return (0);
+			break;
+		}
+		i++;
+	}
+	return (1);
 }
 
-void	print_export(t_env *env)
+char	**lst_cp(t_env *env, int len_env, int len_str, char **str)
 {
-	char	**str;
-	int 	len_env;
-	int 	len_str;
-	int 	i;
+	int i;
 
 	i = 0;
 	len_env = ft_lstsize((t_list *)env);
@@ -94,33 +35,160 @@ void	print_export(t_env *env)
 		env = env->next;
 		i++;
 	}
-	order_str(str);
+	return (str);
 }
 
 int	len_args(char **input)
-
-void	ft_export_kevin(char **input, t_env *env)
 {
-	int	i;
+	int i;
+	int count;
+
+	i = -1;
+	while (input[++i])
+		count = i;
+	return (count);
+}
+
+char *put_comas(char *str)
+{
+	int count;
+	char *str2;
+	int i;
+	int j;
 	int len;
 
 	i = 0;
-	len = len_args(input, env);
-	print_export(env);
-//	while (env)
-//	{
-//		printf("%s\n", env->value);
-//		env = env->next;
-//	}
-//	while (input[i])
-//	{
-//		printf("input = %s\n", input[i]);
-//		i++;
-//	}
-//	if (i == 6)
-//		order_list(*list, input);
-//	else
-//		search_args(input, list, i);
-//
-//	return (NULL);
+	j = 0;
+	count = 1;
+	len = ft_strlen(str);
+	str2 = calloc (len + 2, sizeof (char *));
+	while (str[i])
+	{
+		if (str[i] == '=' && count == 1)
+		{
+			str2[j] = str[i];
+			j++; i++;
+			str2[j] = '"';
+			j++;
+			count--;
+		}
+		str2[j] = str[i];
+		i++;
+		j++;
+	}
+	str2[j] = '"';
+	str2[j + 1] = 0;
+	i = 0;
+	j = 0;
+	while (str2[j])
+	{
+		str[i] = str2[j];
+		i++;
+		j++;
+	}
+	free(str2);
+	return (str);
 }
+
+void	print_tab(char **str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		printf("declare -x %s\n", str[i]);
+}
+
+t_env	*ft_str_env(t_env *env, char **str, char **input)
+{
+
+	int len;
+	int	i;
+	int j;
+
+	i = -1;
+	j = 1;
+	while (str[++i])
+	{
+		len = ft_strlen(str[i]);
+		if (ft_strncmp(str[i], input[j], len + 1) == 0)
+		{
+			ft_lstadd_back_env(&env, ft_lstnew_env(str[i]));
+			j++;
+		}
+	}
+}
+
+t_env	*manage_args(char **input, t_env *env)
+{
+	char	**str;
+	t_env	*start;
+	int 	len_env;
+	int 	len_str;
+	int 	i;
+	int		j;
+
+	i = 0;
+	j = 1;
+	start = env;
+	str = lst_cp(env, len_env, len_str, str);
+	bubble_sort(str);
+	while (str[i])
+		i++;
+	while (input[j])
+	{
+		len_str = ft_strlen(input[j]);
+		str[i] = ft_calloc(len_str + 1, sizeof (char *));
+		str[i] = input[j];
+		str[i] = put_comas(str[i]);
+		i++;
+		j++;
+	}
+	str[i] = 0;
+	env = ft_str_env(env, str, input);
+	env = start;
+//	print_tab(str);
+	free(str);
+	return (env);
+}
+
+void	print_export(t_env *env)
+{
+	char	**str;
+	int 	len_env;
+	int 	len_str;
+
+	str = lst_cp(env, len_env, len_str, str);
+	bubble_sort(str);
+}
+
+int	check_args(char **input)
+{
+	int i;
+
+	i = 1;
+	while (input[i])
+	{
+		if (check_equal(input[i]) != 0)
+		{
+			printf("export: '%s': not a valid identifier\n", input[i]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	ft_export_kevin(char **input, t_env *env)
+{
+	int len;
+	int ret;
+
+	len = len_args(input);
+	if (len == 0)
+		print_export(env);
+	ret = check_args(input);
+	if (len > 0 && ret == 0)
+		env = manage_args(input, env);
+}
+
