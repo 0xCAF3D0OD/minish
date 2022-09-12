@@ -20,18 +20,13 @@ void	ft_env_from_kevin(char **input)
 	while (input[++i])
 		printf("env: %s\n", input[i]);
 }
-//
-//void	ft_pwd(char **env)
-//{
-//
-//	while (*env)
-//	{
-//		if (ft_strncmp("PWD", *env, 3) == 0)
-//			printf("%s\n", *env + 4);
-//		env++;
-//	}
-//}
-//
+
+int	ft_pwd_kevin(void)
+{
+	printf("%s\n", getcwd(NULL, 100));
+	return (1);
+}
+
 void 	ft_echo_n(char **input, int i)
 {
 	while (input[++i])
@@ -76,55 +71,70 @@ void 	ft_echo_from_kevin(char **input) {
 	}
 }
 
-//
-//void 	ft_exit(void)
-//{
-//	exit(1);
-//}
-//
-//t_list	*ft_unset(char *input, t_list **list)
-//{
-//	int		i;
-//	int		x;
-//	char 	**str;
-//	char	**search;
-//
-//	i = 0;
-//	while (input[i])
-//		i++;
-//	search = search_args(input, list, i);
-//	str = order_list(*list, input);
-//	i = 0;
-//	x = 1;
-//	if (!(str))
-//		return (NULL);
-//	// while (search[x])
-//	// {
-//	// 	printf("search[%d] = %s\n", x, search[x]);
-//	// 	x++;
-//	// }
-//	while (search[x])
-//		print_str("unset", search[x], 0, i, "end"), x++;
-//	while (str[i])
+void	env_add_back(t_env **lst, t_env *new)
+{
+	t_env	*ptr;
+
+	if (!lst)
+		return ;
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		ptr = ft_lstlast_env(*lst);
+		ptr->next = new;
+	}
+}
+
+t_env	*new_env(char	*name, char *value)
+{
+	t_env	*env;
+
+	env = malloc(sizeof(t_env));
+	env->name = name;
+	env->value = value;
+	env->next = NULL;
+	return (env);
+}
+
+void	updatepwd(t_shell *shell, char *pwd)
+{
+	t_env	*tmp;
+
+	tmp = shell->env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, "PWD"))
+			getcwd(tmp->value, 100);
+		else if (!ft_strcmp(tmp->name, "OLDPWD"))
+		{
+			tmp->value = pwd;
+			pwd = NULL;
+		}
+		tmp = tmp->next;
+	}
+	if (pwd)
+	{
+		tmp = new_env("OLDPWD", pwd);
+		env_add_back(&shell->env, tmp);
+	}
+	free(pwd);
+}
+
+int	ft_cd_kevin(char **cmd, t_shell *shell)
+{
+	static char	*pwd;
+
+	if (!pwd)
+		pwd = malloc(sizeof(char) * 100);
+	getcwd(pwd, 100);
+	if (cmd[0] == NULL)
+		cmd[0] = ft_strdup(getenv("HOME"));
+//	if (chdir(cmd[0]) != 0)
 //	{
-//		while (search[x])
-//		{
-//			while (ft_strcmp(search[x], str[i]) != 0)
-//			{
-//				i++;
-//				print_str("unset", str[i], 0, i, "end");
-//			}
-//			print_str("unset", str[i], 0, i, "end");
-//			str[i] = NULL;
-//			print_str("unset", str[i], 0, i, "end");
-//			if (x > 1)
-//				x++;
-//			else
-//				break ;
-//		}
+//		printf("cd: no such file or directory: %s\n", cmd[0]);
+//		return (0);
 //	}
-//
-//	// while (str[i])
-//	// 	printf("%s\n", str[i++]);
-//	return (NULL);
-//}
+	updatepwd(shell, pwd);
+	return (1);
+}

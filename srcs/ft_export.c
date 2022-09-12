@@ -36,22 +36,23 @@ char	**sort(char **ev,int n_array)
 	return (ev);
 }
 
-int	ft_export(char **cmd, t_shell *shell)
-{
-	unsigned int i;
-
-	i = 0;
-	while(shell->ev[i])
-		i++;
-	if (cmd[1] == NULL)
-	{
+//int	ft_export(char **cmd, t_shell *shell)
+//{
+//	unsigned int i;
+//	char **g_env;
+//
+//	i = 0;
+//	while(shell->ev[i])
+//		i++;
+//	if (cmd[1] == NULL)
+//	{
 //		g_env = sort(shell->ev,i);
-		i = 0;
+//		i = 0;
 //		while(g_env[i])
-		{
+//		{
 //			printf("declare -x %s\n",g_env[i]);
-			i++;
-		}
-	}
-	return (1);
-}
+//			i++;
+//		}
+//	}
+//	return (1);
+//}

@@ -174,13 +174,15 @@ int	ft_export(char **cmd, t_shell *shell);
 void 	ft_echo_from_kevin(char **input);
 void	ft_env_from_kevin(char **input);
 void	ft_export_kevin(char **input, t_env *env);
+int		ft_pwd_kevin(void);
+int		ft_cd_kevin(char **cmd, t_shell *shell);
 //ft_lst_kevin
 t_env	*ft_lstnew_env(void	*content);
 t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 int		ft_lstsize_env(t_env *lst);
 //export_kevin
-
+void	display_env(t_env *env);
 //annexe_kevin
 void	bubble_sort(char **array);
 //Init ascii

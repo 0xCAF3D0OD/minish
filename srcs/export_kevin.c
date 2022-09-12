@@ -3,7 +3,23 @@
 //
 #include "minishell.h"
 
-//
+char	**lst_cp(t_env *env, int len_env, char **str)
+{
+	int i;
+
+	i = 0;
+	len_env = ft_lstsize_env(env);
+	printf("len_env = %d\n", len_env);
+	str = ft_calloc(len_env + 1, sizeof (char *));
+	while (env)
+	{
+		str[i] = ft_strdup(env->value);
+		env = env->next;
+		i++;
+	}
+	return (str);
+}
+
 //char *put_comas(char *str)
 //{
 //	int count;
@@ -44,7 +60,7 @@
 //	free(str2);
 //	return (str);
 //}
-//
+
 //void	print_tab(char **str)
 //{
 //	int i;
@@ -56,7 +72,6 @@
 //
 //t_env	*ft_str_env(t_env *env, char **str, char **input)
 //{
-//
 //	int len;
 //	int	i;
 //	int j;
@@ -74,7 +89,7 @@
 //	}
 //	return (env);
 //}
-
+//
 //t_env	*manage_args(char **input, t_env *env)
 //{
 //	char	**str;
@@ -90,7 +105,7 @@
 //	len_str = 0;
 //	str = NULL;
 //	start = env;
-////	str = lst_cp(env, len_env, len_str, str);
+//	str = lst_cp(env, len_env, len_str, str);
 //	bubble_sort(str);
 //	while (str[i])
 //		i++;
@@ -110,6 +125,17 @@
 //	free(str);
 //	return (env);
 //}
+
+int	count_line(t_env *env)
+{
+	int	i = 0;
+	while (env)
+	{
+		env = env->next;
+		i++;
+	}
+	return (i);
+}
 
 void	display_env(t_env *env)
 {
@@ -158,6 +184,7 @@ int	check_equal(char *str)
 
 int 	check_simil(char **input, t_env *env)
 {
+	char	*str;
 	int		len;
 	int		i;
 
@@ -165,13 +192,11 @@ int 	check_simil(char **input, t_env *env)
 	i = 1;
 	while (env)
 	{
-		printf("%s	->	%s\n", env->value, input[i]);
-		len = ft_strlen(input[i]);
+		str = ft_strdup(env->value);
+//		printf("ret = %d,	%s	%s\n", ft_strncmp(input[i], str, len), input[i], str);
+ 		len = ft_strlen(input[i]);
 		if (ft_strncmp(input[i], env->value, len) == 0)
-		{
-			printf("%s	->	%s\n", env->value, input[i]);
 			return (1);
-		}
 		env = env->next;
 	}
 	return (0);
@@ -184,41 +209,21 @@ void	manage_args(char **input, t_env *env)
 
 	i = 1;
 	ret = 0;
+
 	while (input[i])
 	{
-		if ((ret = check_simil(input, env)) != 0)
-			printf("i++\n"), i++;
+		if (check_simil(input, env) && input[i + 1])
+			i++;
 		ft_lstadd_back_env(&env, ft_lstnew_env(input[i]));
 		i++;
 	}
-//	display_env(env);
 }
 
-char	**lst_cp(t_env *env, int len_env, int len_str, char **str)
+void	print_export(t_env *env, char **str)
 {
-	int i;
-
-	i = 0;
-	len_env = ft_lstsize_env(env);
-	str = ft_calloc(len_env + 1, sizeof (char *));
-	while (env)
-	{
-		len_str = ft_strlen((char *)env->value);
-		str[i] = ft_calloc(len_str + 1, sizeof (char *));
-		str[i] = (char *)env->value;
-		env = env->next;
-		i++;
-	}
-	return (str);
-}
-
-void	print_export(t_env *env)
-{
-	char **str = NULL;
 	int len_env = 0;
-	int len_str = 0;
 
-	str = lst_cp(env, len_env, len_str, str);
+	str = lst_cp(env, len_env, str);
 	bubble_sort(str);
 	display_str(str);
 }
@@ -242,14 +247,20 @@ int	check_args(char **input)
 
 void	ft_export_kevin(char **input, t_env *env)
 {
+	char **str;
 	int len;
-	int ret;
+//	int ret;
 
+	str = NULL;
 	len = len_args(input);
-	if (len == 0)
-		print_export(env);
-	ret = check_args(input);
-	if (len > 0 && ret == 0)
-		manage_args(input, env);
+	ft_lstadd_back_env(&env, ft_lstnew_env(input[1]));
+	//	if (len == 0) {
+//		print_export(env, str);
+//		display_env(env);
+//		return;
+//	}
+//	ret = check_args(input);
+//	if (len > 0 && ret == 0)
+//		manage_args(input, env);
 }
 

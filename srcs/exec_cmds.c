@@ -18,6 +18,8 @@ int	exec_pipe_cmd(t_shell *shell, char **env, int fd_in)
 	(void)env;
 
 	child_handler(shell);
+	if (exec_built_in(shell, 1))
+		exit(1);
 	shell->cmd->pid = fork();
 	if (shell->cmd->pid == 0)
 	{
@@ -26,8 +28,7 @@ int	exec_pipe_cmd(t_shell *shell, char **env, int fd_in)
 		swap_fds(shell->cmd->in, shell->cmd->out);
 		if (shell->error)
 			exit(EXIT_FAILURE);
-//		if (exec_built_in(shell, 1)) TODO: execute built-ins here
-//			exit(l_status);
+//		TODO: execute built-ins here
 		shell->cmd->path = check_cmd(*shell->cmd->token, shell);
 		//shell->ret = get_path_exec(shell);
 		//printf("path : %s\n", shell->cmd->path);

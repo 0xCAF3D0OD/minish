@@ -58,10 +58,12 @@ int	launch_builtin(int tmp, t_shell *shell, int in_fork)
 		main_redirection(shell);
 	if (tmp == ECHO_M)
 		ft_echo_from_kevin(shell->cmd->token);
-	else if (tmp == ENV_M)
-		ft_printf(1, "<env>\n");
+	if (tmp == PWD_M)
+		ft_pwd_kevin();
+//	else if (tmp == ENV_M)
+//		ft_printf(1, "<env>\n");
 	else if (tmp == CD_M)
-		ft_printf(1, "<cd>\n");
+		ft_cd_kevin(tmp, *shell);
 	else if (tmp == EXPORT_M)
 		ft_export_kevin(shell->cmd->token, shell->env);
 	if (!in_fork)
