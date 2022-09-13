@@ -70,33 +70,6 @@ void 	ft_echo_from_kevin(char **input) {
 			printf("\n");
 	}
 }
-
-void	env_add_back(t_env **lst, t_env *new)
-{
-	t_env	*ptr;
-
-	if (!lst)
-		return ;
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		ptr = ft_lstlast_env(*lst);
-		ptr->next = new;
-	}
-}
-
-t_env	*new_env(char	*name, char *value)
-{
-	t_env	*env;
-
-	env = malloc(sizeof(t_env));
-	env->name = name;
-	env->value = value;
-	env->next = NULL;
-	return (env);
-}
-
 void	updatepwd(t_shell *shell, char *pwd)
 {
 	t_env	*tmp;
@@ -121,20 +94,20 @@ void	updatepwd(t_shell *shell, char *pwd)
 	free(pwd);
 }
 
-int	ft_cd_kevin(char **cmd, t_shell *shell)
-{
-	static char	*pwd;
-
-	if (!pwd)
-		pwd = malloc(sizeof(char) * 100);
-	getcwd(pwd, 100);
-	if (cmd[0] == NULL)
-		cmd[0] = ft_strdup(getenv("HOME"));
-//	if (chdir(cmd[0]) != 0)
-//	{
-//		printf("cd: no such file or directory: %s\n", cmd[0]);
-//		return (0);
-//	}
-	updatepwd(shell, pwd);
-	return (1);
-}
+//int	ft_cd_kevin(char **cmd, t_shell *shell)
+//{
+//	static char	*pwd;
+//
+//	if (!pwd)
+//		pwd = malloc(sizeof(char) * 100);
+//	getcwd(pwd, 100);
+//	if (cmd[0] == NULL)
+//		cmd[0] = ft_strdup(getenv("HOME"));
+////	if (chdir(cmd[0]) != 0)
+////	{
+////		printf("cd: no such file or directory: %s\n", cmd[0]);
+////		return (0);
+////	}
+//	updatepwd(shell, pwd);
+//	return (1);
+//}

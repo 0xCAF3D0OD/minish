@@ -3,64 +3,6 @@
 //
 #include "minishell.h"
 
-char	**lst_cp(t_env *env, int len_env, char **str)
-{
-	int i;
-
-	i = 0;
-	len_env = ft_lstsize_env(env);
-	printf("len_env = %d\n", len_env);
-	str = ft_calloc(len_env + 1, sizeof (char *));
-	while (env)
-	{
-		str[i] = ft_strdup(env->value);
-		env = env->next;
-		i++;
-	}
-	return (str);
-}
-
-//char *put_comas(char *str)
-//{
-//	int count;
-//	char *str2;
-//	int i;
-//	int j;
-//	int len;
-//
-//	i = 0;
-//	j = 0;
-//	count = 1;
-//	len = ft_strlen(str);
-//	str2 = calloc (len + 2, sizeof (char *));
-//	while (str[i])
-//	{
-//		if (str[i] == '=' && count == 1)
-//		{
-//			str2[j] = str[i];
-//			j++; i++;
-//			str2[j] = '"';
-//			j++;
-//			count--;
-//		}
-//		str2[j] = str[i];
-//		i++;
-//		j++;
-//	}
-//	str2[j] = '"';
-//	str2[j + 1] = 0;
-//	i = 0;
-//	j = 0;
-//	while (str2[j])
-//	{
-//		str[i] = str2[j];
-//		i++;
-//		j++;
-//	}
-//	free(str2);
-//	return (str);
-//}
-
 //void	print_tab(char **str)
 //{
 //	int i;
@@ -125,6 +67,23 @@ char	**lst_cp(t_env *env, int len_env, char **str)
 //	free(str);
 //	return (env);
 //}
+
+char	**lst_cp(t_env *env, int len_env, char **str)
+{
+	int i;
+
+	i = 0;
+	len_env = ft_lstsize_env(env);
+	printf("len_env = %d\n", len_env);
+	str = ft_calloc(len_env + 1, sizeof (char *));
+	while (env)
+	{
+		str[i] = ft_strdup(env->value);
+		env = env->next;
+		i++;
+	}
+	return (str);
+}
 
 int	count_line(t_env *env)
 {
@@ -193,30 +152,109 @@ int 	check_simil(char **input, t_env *env)
 	while (env)
 	{
 		str = ft_strdup(env->value);
-//		printf("ret = %d,	%s	%s\n", ft_strncmp(input[i], str, len), input[i], str);
  		len = ft_strlen(input[i]);
 		if (ft_strncmp(input[i], env->value, len) == 0)
+		{
 			return (1);
+			break ;
+		}
 		env = env->next;
 	}
 	return (0);
+}
+int	len_input(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char *put_comas(char *str)
+{
+	int count;
+	char *str2;
+	int i;
+	int j;
+	int len;
+
+	i = 0;
+	j = 0;
+	count = 1;
+	len = ft_strlen(str);
+	str2 = calloc (len, sizeof (char *));
+	while (str[i])
+	{
+		if (str[i] == '=' && count == 1)
+		{
+			str2[j] = str[i];
+			j++; i++;
+			str2[j] = '"';
+			j++;
+			count--;
+		}
+		str2[j] = str[i];
+		i++;
+		j++;
+	}
+	str2[j] = '"';
+	str2[j + 1] = 0;
+	printf("%s\n", str2);
+	printf("%d\n", (int)ft_strlen(str2));
+	printf("%d\n", (int)ft_strlen(str));
+	usleep(50);
+	i = 0;
+	j = 0;
+	while (str2[j])
+	{
+		str[i] = str2[i];
+		i++;
+	}
+	printf("%d\n", (int)ft_strlen(str2));
+	printf("%d\n", (int)ft_strlen(str));
+	free(str2);
+	return (str);
+}
+
+char *dup_input(char **str, char **input, int i)
+{
+	int	j;
+
+	j = 0;
+	printf("%d\n", (int) ft_strlen(input[i]) + 2);
+	str[i] = ft_calloc((ft_strlen(input[i]) + 2), sizeof (char *));
+	str[i] = ft_strdup(input[i]);
+	str[i] = put_comas(str[i]);
+
+	return (str[i]);
 }
 
 void	manage_args(char **input, t_env *env)
 {
 	int	i;
 	int ret;
+	char **str;
 
 	i = 1;
 	ret = 0;
-
+	str = ft_calloc(len_input(input), sizeof (char *));
 	while (input[i])
 	{
-		if (check_simil(input, env) && input[i + 1])
+		str[i] = dup_input(str, input, i);
+		printf("%d\n", (int)ft_strlen(str[i]));
+		printf("10: %s\n", str[i]);
+		usleep(50);
+		if (check_simil(str, env) != 0 && str[i + 1])
 			i++;
-		ft_lstadd_back_env(&env, ft_lstnew_env(input[i]));
+		else if (str[i + 1] == 0 && check_simil(str, env) != 0)
+			break ;
+		ft_lstadd_back_env(&env, ft_lstnew_env(ft_strdup(str[i])));
+		free(str[i]);
 		i++;
 	}
+
 }
 
 void	print_export(t_env *env, char **str)
@@ -249,18 +287,17 @@ void	ft_export_kevin(char **input, t_env *env)
 {
 	char **str;
 	int len;
-//	int ret;
+	int ret;
 
 	str = NULL;
 	len = len_args(input);
-	ft_lstadd_back_env(&env, ft_lstnew_env(input[1]));
-	//	if (len == 0) {
-//		print_export(env, str);
-//		display_env(env);
-//		return;
-//	}
-//	ret = check_args(input);
-//	if (len > 0 && ret == 0)
-//		manage_args(input, env);
+	if (len == 0)
+	{
+		print_export(env, str);
+		return;
+	}
+	ret = check_args(input);
+	if (len > 0 && ret == 0)
+		manage_args(input, env);
 }
 

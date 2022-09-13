@@ -175,7 +175,7 @@ void 	ft_echo_from_kevin(char **input);
 void	ft_env_from_kevin(char **input);
 void	ft_export_kevin(char **input, t_env *env);
 int		ft_pwd_kevin(void);
-int		ft_cd_kevin(char **cmd, t_shell *shell);
+//int		ft_cd_kevin(char **cmd, t_shell *shell);
 //ft_lst_kevin
 t_env	*ft_lstnew_env(void	*content);
 t_env	*ft_lstlast_env(t_env *lst);
@@ -194,7 +194,8 @@ int		double_free(char **array);
 void	print_error(char *str);
 
 //char	**g_env;
-
+t_env	*new_env(char	*name, char *value);
+void	env_add_back(t_env **lst, t_env *new);
 //quotes/
 int	parse_simple_quote(t_vars *vars, t_cmd *current, int i);
 int	parse_double_quote(t_vars *vars, t_cmd *current, int i);
