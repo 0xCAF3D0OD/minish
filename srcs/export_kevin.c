@@ -3,88 +3,6 @@
 //
 #include "minishell.h"
 
-//void	print_tab(char **str)
-//{
-//	int i;
-//
-//	i = -1;
-//	while (str[++i])
-//		printf("declare -x %s\n", str[i]);
-//}
-//
-//t_env	*ft_str_env(t_env *env, char **str, char **input)
-//{
-//	int len;
-//	int	i;
-//	int j;
-//
-//	i = -1;
-//	j = 1;
-//	while (str[++i])
-//	{
-//		len = ft_strlen(str[i]);
-//		if (ft_strncmp(str[i], input[j], len + 1) == 0)
-//		{
-//			ft_lstadd_back_env(&env, ft_lstnew_env(str[i]));
-//			j++;
-//		}
-//	}
-//	return (env);
-//}
-//
-//t_env	*manage_args(char **input, t_env *env)
-//{
-//	char	**str;
-//	t_env	*start;
-//	int 	len_env;
-//	int 	len_str;
-//	int 	i;
-//	int		j;
-//
-//	i = 0;
-//	j = 1;
-//	len_env = 0;
-//	len_str = 0;
-//	str = NULL;
-//	start = env;
-//	str = lst_cp(env, len_env, len_str, str);
-//	bubble_sort(str);
-//	while (str[i])
-//		i++;
-//	while (input[j])
-//	{
-//		len_str = ft_strlen(input[j]);
-//		str[i] = ft_calloc(len_str + 1, sizeof (char *));
-//		str[i] = input[j];
-//		str[i] = put_comas(str[i]);
-//		i++;
-//		j++;
-//	}
-//	str[i] = 0;
-//	env = ft_str_env(env, str, input);
-//	env = start;
-////	print_tab(str);
-//	free(str);
-//	return (env);
-//}
-
-char	**lst_cp(t_env *env, int len_env, char **str)
-{
-	int i;
-
-	i = 0;
-	len_env = ft_lstsize_env(env);
-	printf("len_env = %d\n", len_env);
-	str = ft_calloc(len_env + 1, sizeof (char *));
-	while (env)
-	{
-		str[i] = ft_strdup(env->value);
-		env = env->next;
-		i++;
-	}
-	return (str);
-}
-
 int	count_line(t_env *env)
 {
 	int	i = 0;
@@ -160,8 +78,10 @@ int 	check_simil(char **input, t_env *env)
 		}
 		env = env->next;
 	}
+	free(str);
 	return (0);
 }
+
 int	len_input(char **str)
 {
 	int i;
@@ -172,103 +92,87 @@ int	len_input(char **str)
 	return (i);
 }
 
-char *put_comas(char *str)
+char *manage_comas(char *str, char *temp, int j)
 {
 	int count;
-	char *str2;
 	int i;
-	int j;
-	int len;
 
-	i = 0;
-	j = 0;
 	count = 1;
-	len = ft_strlen(str);
-	str2 = calloc (len, sizeof (char *));
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
 		if (str[i] == '=' && count == 1)
 		{
-			str2[j] = str[i];
+			temp[j] = str[i];
 			j++; i++;
-			str2[j] = '"';
+			temp[j] = '"';
 			j++;
 			count--;
 		}
-		str2[j] = str[i];
-		i++;
+		temp[j] = str[i];
 		j++;
 	}
-	str2[j] = '"';
-	str2[j + 1] = 0;
-	printf("%s\n", str2);
-	printf("%d\n", (int)ft_strlen(str2));
-	printf("%d\n", (int)ft_strlen(str));
-	usleep(50);
-	i = 0;
-	j = 0;
-	while (str2[j])
-	{
-		str[i] = str2[i];
-		i++;
-	}
-	printf("%d\n", (int)ft_strlen(str2));
-	printf("%d\n", (int)ft_strlen(str));
-	free(str2);
-	return (str);
-}
-
-char *dup_input(char **str, char **input, int i)
-{
-	int	j;
-
-	j = 0;
-	printf("%d\n", (int) ft_strlen(input[i]) + 2);
-	str[i] = ft_calloc((ft_strlen(input[i]) + 2), sizeof (char *));
-	str[i] = ft_strdup(input[i]);
-	str[i] = put_comas(str[i]);
-
-	return (str[i]);
+	temp[j] = '"';
+	temp[j + 1] = 0;
+	return (temp);
 }
 
 void	manage_args(char **input, t_env *env)
 {
-	int	i;
-	int ret;
-	char **str;
+	int		i;
+	int		j;
+	char	**str;
 
 	i = 1;
-	ret = 0;
-	str = ft_calloc(len_input(input), sizeof (char *));
+	j = 0;
+	str = ft_calloc(sizeof (char *), len_input(input));
 	while (input[i])
 	{
-		str[i] = dup_input(str, input, i);
-		printf("%d\n", (int)ft_strlen(str[i]));
-		printf("10: %s\n", str[i]);
-		usleep(50);
-		if (check_simil(str, env) != 0 && str[i + 1])
+
+		str[i] = ft_calloc(sizeof (char *), ft_strlen(input[i]) + 2);
+		str[i] = manage_comas(input[i], str[i], j);
+		if (check_simil(input, env) != 0 && input[i + 1])
 			i++;
-		else if (str[i + 1] == 0 && check_simil(str, env) != 0)
+		else if (input[i + 1] == 0 && check_simil(input, env) != 0)
 			break ;
-		ft_lstadd_back_env(&env, ft_lstnew_env(ft_strdup(str[i])));
-		free(str[i]);
+		ft_lstadd_back_env(&env, ft_lstnew_env(ft_strdup(input[i])));
+//		ft_lstadd_back_env(&env, ft_lstnew_env(ft_strdup(str[i])));
 		i++;
 	}
-
+	i = -1;
+	while (str[++i])
+	{
+		free(str[i]);
+		str = NULL;
+	}
 }
 
-void	print_export(t_env *env, char **str)
+void	print_export(t_env *env, int len_env, char **str)
 {
-	int len_env = 0;
+	int	i;
 
-	str = lst_cp(env, len_env, str);
+	i = 0;
+	len_env = ft_lstsize_env(env);
+	str = ft_calloc(len_env + 1, sizeof (char *));
+	while (env)
+	{
+		str[i] = ft_strdup(env->value);
+		env = env->next;
+		i++;
+	}
+	i = -1;
 	bubble_sort(str);
 	display_str(str);
+	while (str[++i])
+	{
+		free(str[i]);
+		str[i] = NULL;
+	}
 }
 
 int	check_args(char **input)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (input[i])
@@ -285,15 +189,18 @@ int	check_args(char **input)
 
 void	ft_export_kevin(char **input, t_env *env)
 {
-	char **str;
-	int len;
-	int ret;
+//	t_env *export;
+	int		len_env;
+	char	**str;
+	int		len;
+	int		ret;
 
 	str = NULL;
 	len = len_args(input);
+	len_env = 0;
 	if (len == 0)
 	{
-		print_export(env, str);
+		print_export(env, len_env, str);
 		return;
 	}
 	ret = check_args(input);

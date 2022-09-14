@@ -66,6 +66,8 @@ int	launch_builtin(int tmp, t_shell *shell, int in_fork)
 //		ft_cd_kevin(tmp, *shell);
 	else if (tmp == EXPORT_M)
 		ft_export_kevin(shell->cmd->token, shell->env);
+	else if (tmp == UNSET_M)
+		ft_unset_kevin(shell->cmd->token, shell->env);
 	if (!in_fork)
 		swap_fds(shell->std_in, shell->std_out);
 	shell->std_in = 0;

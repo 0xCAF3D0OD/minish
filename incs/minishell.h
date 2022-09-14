@@ -185,6 +185,8 @@ int		ft_lstsize_env(t_env *lst);
 void	display_env(t_env *env);
 //annexe_kevin
 void	bubble_sort(char **array);
+//unset_kevin
+void	ft_unset_kevin(char **input, t_env *env);
 //Init ascii
 void	init_ascii(void);
 //Free
