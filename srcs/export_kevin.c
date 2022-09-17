@@ -129,8 +129,8 @@ void	manage_args(char **input, t_env *env)
 	while (input[i])
 	{
 
-		str[i] = ft_calloc(sizeof (char *), ft_strlen(input[i]) + 2);
-		str[i] = manage_comas(input[i], str[i], j);
+//		str[i] = ft_calloc(sizeof (char *), ft_strlen(input[i]) + 2);
+//		str[i] = manage_comas(input[i], str[i], j);
 		if (check_simil(input, env) != 0 && input[i + 1])
 			i++;
 		else if (input[i + 1] == 0 && check_simil(input, env) != 0)

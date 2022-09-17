@@ -14,6 +14,8 @@
 
 int	l_ret = 0;
 
+void check_leaks();
+
 void	init_line(t_shell *shell)
 {
 	if (!shell->cmdline)
@@ -57,12 +59,22 @@ int	main(int argc, char **argv, char **env)
 	{
 		parrent_handler();
 		init_line(&shell);
-		if (shell.cmdline && !(ft_strncmp(shell.cmdline, "exit", 4))
-				&& ft_strlen(shell.cmdline) == 4)
+		if (shell.cmdline && !(ft_strncmp(shell.cmdline, "exit", 4)))
 		{
-			//free_struct(&shell);
-			rl_clear_history();
-			exit (l_ret);
+			if (ft_strlen(shell.cmdline) != 4)
+			{
+				rl_clear_history();
+				printf("exit\n");
+				perror("minish");
+				exit (l_ret);
+			}
+			if (ft_strlen(shell.cmdline) == 4)
+			{
+				//free_struct(&shell);
+				rl_clear_history();
+				printf("exit\n");
+				exit (l_ret);
+			}
 		}
 		if (shell.cmdline)
 		{
@@ -74,8 +86,9 @@ int	main(int argc, char **argv, char **env)
 				parsing(&shell, env);
 			}
 		}
-		//free(shell.cmdline);
+//		free(shell.cmdline);
 	}
 	free_struct(&shell);
+	check_leaks();
 	return (0);
 }

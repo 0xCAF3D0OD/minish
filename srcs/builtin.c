@@ -62,8 +62,8 @@ int	launch_builtin(int tmp, t_shell *shell, int in_fork)
 		ft_pwd_kevin();
 //	else if (tmp == ENV_M)
 //		ft_printf(1, "<env>\n");
-//	else if (tmp == CD_M)
-//		ft_cd_kevin(tmp, *shell);
+	else if (tmp == CD_M)
+		ft_cd_kevin(shell->cmd->token, shell);
 	else if (tmp == EXPORT_M)
 		ft_export_kevin(shell->cmd->token, shell->env);
 	else if (tmp == UNSET_M)
@@ -87,22 +87,7 @@ int exec_built_in(t_shell *shell, int in_fork)
 	}
 	return (0);
 }
-//
-//int	ft_cd(char **cmd, t_shell *shell)
-//{
-//
-//	if (cmd[0] == NULL)
-//		cmd[0] = getenv("HOME");
-//	getcwd(shell->ev[31],100);
-////	shell->ev[31] = ft_strjoin("OLDPWD=",shell->ev[31]);
-//	if (chdir(cmd[0]) != 0)
-//	{
-//		printf("cd: no such file or directory: %s\n",cmd[0]);
-//		return (0);
-//	}
-//	init_prompt(shell);
-//	return (1);
-//}
+
 //void	ft_printecho(char *str)
 //{
 //	int	i;

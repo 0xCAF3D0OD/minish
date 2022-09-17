@@ -12,25 +12,17 @@
 
 #include "../incs/minishell.h"
 
-void	ft_env_from_kevin(char **input)
-{
-	int i;
-
-	i = -1;
-	while (input[++i])
-		printf("env: %s\n", input[i]);
-}
-
 int	ft_pwd_kevin(void)
 {
 	printf("%s\n", getcwd(NULL, 100));
 	return (1);
 }
 
-void 	ft_echo_n(char **input, int i)
+void 	ft_echo_n(char **input, int i, int count)
 {
-	while (input[++i])
-		printf("%s", input[i]);
+	while (++i <= count - 2)
+		printf("%s ", input[i]);
+	printf("%s", input[i]);
 }
 
 int		arg_counter(char **input)
@@ -62,7 +54,7 @@ void 	ft_echo_from_kevin(char **input) {
 			i++;
 		if (ft_strcmp("-n", input[i]) == 0)
 		{
-			ft_echo_n(input, i++);
+			ft_echo_n(input, i++, count);
 			break;
 		}
 		printf("%s ", input[i]);
@@ -70,6 +62,7 @@ void 	ft_echo_from_kevin(char **input) {
 			printf("\n");
 	}
 }
+
 void	updatepwd(t_shell *shell, char *pwd)
 {
 	t_env	*tmp;
@@ -78,8 +71,8 @@ void	updatepwd(t_shell *shell, char *pwd)
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->name, "PWD"))
-			getcwd(tmp->value, 100);
-		else if (!ft_strcmp(tmp->name, "OLDPWD"))
+			getcwd(pwd, 100);
+		if (!ft_strcmp(tmp->name, "OLDPWD"))
 		{
 			tmp->value = pwd;
 			pwd = NULL;
@@ -94,20 +87,21 @@ void	updatepwd(t_shell *shell, char *pwd)
 	free(pwd);
 }
 
-//int	ft_cd_kevin(char **cmd, t_shell *shell)
-//{
-//	static char	*pwd;
-//
-//	if (!pwd)
-//		pwd = malloc(sizeof(char) * 100);
-//	getcwd(pwd, 100);
-//	if (cmd[0] == NULL)
-//		cmd[0] = ft_strdup(getenv("HOME"));
-////	if (chdir(cmd[0]) != 0)
-////	{
-////		printf("cd: no such file or directory: %s\n", cmd[0]);
-////		return (0);
-////	}
-//	updatepwd(shell, pwd);
-//	return (1);
-//}
+int	ft_cd_kevin(char **input, t_shell *shell)
+{
+	static char	*pwd;
+
+	if (!pwd)
+		pwd = malloc(sizeof(char) * 100);
+	getcwd(pwd, 100);
+	if (input[0] == NULL)
+		input[0] = ft_strdup(getenv("HOME"));
+	if (chdir(input[1]) != 0)
+	{
+		perror("cd");
+//		printf("cd: no such file or directory: %s\n", input[0]);
+		return (0);
+	}
+	updatepwd(shell, pwd);
+	return (1);
+}

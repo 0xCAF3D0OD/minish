@@ -151,11 +151,12 @@ int	redirection(t_vars *vars, t_cmd *current, int i);
 int	tokenizing(t_shell *shell);
 int	pipe_counter(char *str, char c);
 void	blocksig(int sig, void *ptr);
+
 //parsing
 void	parsing(t_shell *shell, char **env);
 int fork_pipes (int n, char ***argv, char **env, t_shell *shell);
-//int	fork_pipes(int n, char *argv, char **env);
-//prompt
+//	int	fork_pipes(int n, char *argv, char **env);
+//	prompt
 void	init_prompt(t_shell *shell);
 
 //exec
@@ -164,49 +165,59 @@ int		exec_pipe_cmd(t_shell *shell, char **env, int fd_in);
 
 //piping
 __attribute__((unused)) void	get_pipes(t_shell *shell);
-int	pipe_handler(t_vars *vars, int i, int len, t_cmd **tmp);
+int		pipe_handler(t_vars *vars, int i, int len, t_cmd **tmp);
+
 //builtin
-int	ft_env(t_shell *shell);
-int	ft_echo(char **cmd);
+int		ft_env(t_shell *shell);
+int		ft_echo(char **cmd);
 int     ft_cd(char **cmd, t_shell *shell);
-int	ft_export(char **cmd, t_shell *shell);
-//builtin from Kevin
+int		ft_export(char **cmd, t_shell *shell);
+
+//	builtin from Kevin
 void 	ft_echo_from_kevin(char **input);
 void	ft_env_from_kevin(char **input);
 void	ft_export_kevin(char **input, t_env *env);
 int		ft_pwd_kevin(void);
-//int		ft_cd_kevin(char **cmd, t_shell *shell);
-//ft_lst_kevin
+int		ft_cd_kevin(char **input, t_shell *shell);
+
+//	ft_lst_kevin
 t_env	*ft_lstnew_env(void	*content);
 t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 int		ft_lstsize_env(t_env *lst);
-//export_kevin
+
+//	export_kevin
 void	display_env(t_env *env);
-//annexe_kevin
+
+//	annexe_kevin
 void	bubble_sort(char **array);
-//unset_kevin
+
+//	unset_kevin
 void	ft_unset_kevin(char **input, t_env *env);
-//Init ascii
+
+//	Init ascii
 void	init_ascii(void);
+
 //Free
 void	free_struct(t_shell *shell);
 int		double_free(char **array);
-//Error
+
+//	Error
 void	print_error(char *str);
 
-//char	**g_env;
+//	char	**g_env;
 t_env	*new_env(char	*name, char *value);
 void	env_add_back(t_env **lst, t_env *new);
-//quotes/
-int	parse_simple_quote(t_vars *vars, t_cmd *current, int i);
-int	parse_double_quote(t_vars *vars, t_cmd *current, int i);
-int	ft_strhas(char *str, char *set);
+
+//	quotes/
+int		parse_simple_quote(t_vars *vars, t_cmd *current, int i);
+int		parse_double_quote(t_vars *vars, t_cmd *current, int i);
+int		ft_strhas(char *str, char *set);
 void	set_quotes_data(t_vars *vars, t_quotes *quotes, t_quotes tmp);
 void	parse_quotes(t_vars *vars, int len);
 int	quotes_error();
 
-//str_utils
+//	str_utils
 int		get_c_index(char *str, char c);
 int		trim_spaces(char *str);
 int		is_sep(char c);
@@ -214,21 +225,21 @@ int		quote_counter(t_vars *vars, int start, int end);
 int		quote_is_data(t_vars *vars, int i);
 char	*substr_quote(t_vars *vars, int start, int end);
 
-//cmd_utils
+//	cmd_utils
 char	**init_cmd_token(void);
 t_cmd	*init_cmd(void);
 void	free_cmd(t_cmd *cmd);
 
-//quotes_utils
+//	quotes_utils
 t_quotes	*init_quotes(int start, int end, t_type type);
 void		free_quotes(t_quotes *quotes);
 
-//vars_utils
+//	vars_utils
 void	init_vars(t_vars *vars, t_shell *shell);
 void	c_free_vars(t_vars *vars);
 void	free_vars(t_vars *vars);
 
-//args_utils
+//	args_utils
 int	args_loop(t_vars *vars, int *i);
 char	**append_args(char **args, char *new);
 int	check_empty(t_vars *vars);

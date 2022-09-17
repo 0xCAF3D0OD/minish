@@ -14,31 +14,19 @@ int	check_input(char **input)
 	}
 	printf("input = %d\n", i);
 	if (i > 1)
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }
 
-t_env	*del_node(t_env *env, char *input)
-{
-//	t_env *tmp;
-	while (env)
-	{
-		if (ft_strcmp(env->next->value, input) == 0)
-		{
-			printf("%s\n", env->value);
-			env = env->next->next;
-			free(env->next);
-		}
-		env = env->next;
-	}
-}
 void	ft_unset_kevin(char **input, t_env *env)
 {
-	int rec;
-	int i;
+	t_env	*tmp;
+	int		rec;
+	int		i;
 
-	i = 0;
+	i = 1;
 	rec = check_input(input);
+	tmp = env;
 	if (rec)
 		printf("\n");
 	else
@@ -47,8 +35,12 @@ void	ft_unset_kevin(char **input, t_env *env)
 		{
 			while(env)
 			{
-				if (ft_strcmp(input[i], env->value) == 0)
-					env = del_node(env, input[i]);
+				if (env->next && ft_strcmp(env->next->value, input[i]) == 0)
+				{
+					tmp = env->next->next;
+					free(env->next);
+					env->next = tmp;
+				}
 				env = env->next;
 			}
 			i++;
