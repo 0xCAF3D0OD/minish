@@ -47,6 +47,27 @@ void	init_shell(t_shell *shell, char **env)
 	tcgetattr(0, &shell->term);
 }
 
+void	exit_fct(t_shell *shell)
+{
+	if (shell->cmdline && !(ft_strncmp(shell->cmdline, "exit", 4)))
+	{
+		if (ft_strlen(shell->cmdline) != 4)
+		{
+			rl_clear_history();
+			printf("exit\n");
+			perror("minish");
+			exit (l_ret);
+		}
+		if (ft_strlen(shell->cmdline) == 4)
+		{
+			//free_struct(&shell);
+			rl_clear_history();
+			printf("exit\n");
+			exit (l_ret);
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
@@ -59,23 +80,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		parrent_handler();
 		init_line(&shell);
-		if (shell.cmdline && !(ft_strncmp(shell.cmdline, "exit", 4)))
-		{
-			if (ft_strlen(shell.cmdline) != 4)
-			{
-				rl_clear_history();
-				printf("exit\n");
-				perror("minish");
-				exit (l_ret);
-			}
-			if (ft_strlen(shell.cmdline) == 4)
-			{
-				//free_struct(&shell);
-				rl_clear_history();
-				printf("exit\n");
-				exit (l_ret);
-			}
-		}
+		exit_fct(&shell);
 		if (shell.cmdline)
 		{
 			add_history(shell.cmdline);

@@ -34,9 +34,9 @@ INC_FLAGS += $(addprefix -I,$(INC_DIRS))
 
 LIB    := libft/libft.a
 
-CFLAGS += -Wall -Wextra #-Werror
+CFLAGS += -Wall -Wextra -Werror
 #CFLAGS += -O2 -march=native
-CFLAGS += -g3 -fsanitize=address
+CFLAGS += -g3 #-fsanitize=address
 
 all:
 	@$(MAKE) $(NAME)
@@ -45,7 +45,7 @@ $(NAME): $(LIB) $(OBJS)
 	@echo Linking $@
 	@$(CC) $(CFLAGS) $(INC_FLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
-$(BUILD_DIR)/%.c.o: %.c
+$(BUILD_DIR)/%.c.o: %.c incs/minishell.h
 	@echo Compiling $@
 	@mkdir -p $(dir $@)
 	@$(CC) -c  $(CFLAGS) $(INC_FLAGS) $< -o $@
